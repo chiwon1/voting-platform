@@ -3,6 +3,7 @@
 ## Development
 
 - 직접 Node/Express/MongoDB를 설정하여 과제를 시작해주세요.
+- MongoDB의 경우, [mlab](https://mlab.com/)와 [mongoose](https://mongoosejs.com/docs/connections.html)을 사용하여 작업하시면 됩니다.
 - UI와 디자인에 제약을 두지 않습니다. 실제 상용화된 서비스라 생각하고 최대한 상식적인 웹을 구현해주시기 바랍니다.
 - 클라이언트 쪽 프레임워크는 사용하지 마세요. (i.e. React)
 
