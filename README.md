@@ -38,4 +38,4 @@
 - 로그인/로그아웃 기능
 - 나의 투표 모아보기 기능
 - 진행 중 여부에 따른 투표 목록 필터링 기능
-- [ ] [AWS](https://aws.amazon.com/) Elastic Beanstalk을 이용하여 배포하여 보세요. [참고 문서](https://github.com/vanilla-coding/docs/wiki/Setting-up-AWS-Elastic-Beanstalk)
+- [AWS](https://aws.amazon.com/) Elastic Beanstalk을 이용하여 배포하여 보세요. [참고 문서](https://github.com/vanilla-coding/docs/wiki/Setting-up-AWS-Elastic-Beanstalk)
