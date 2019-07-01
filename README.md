@@ -1,9 +1,9 @@
-# 투표 플랫폼 만들기
+# Voting Platform
 
 ## Development
 
-- 직접 Node/Express/MongoDB를 설정하여 과제를 시작해주세요.
-- MongoDB의 경우, [mlab](https://mlab.com/)와 [mongoose](https://mongoosejs.com/docs/connections.html)을 사용하여 작업하시면 됩니다.
+- 직접 Node/Express/MongoDB를 세팅하여 과제를 시작해주세요.
+- 데이터베이스는 본인 컴퓨터(Local)에 [MongoDB를 설치](https://www.mongodb.com/download-center/community)하시고 [mongoose](https://mongoosejs.com/docs/connections.html)와 함께 사용하여 작업하시면 됩니다.
 - UI와 디자인에 제약을 두지 않습니다. 실제 상용화된 서비스라 생각하고 최대한 상식적인 웹을 구현해주시기 바랍니다.
 - 클라이언트 쪽 프레임워크는 사용하지 마세요. (i.e. React)
 
@@ -31,11 +31,9 @@
 - 선택 사항은 반드시 2개 이상이어야 생성이 가능하다.
 - 투표를 생성하게 되면 메인 페이지의 전체 투표 목록에 반영되고 누구나 투표가 가능하다.
 
-### [보너스 - 우선 순위 없음]
+### Advanced
 
+- Writing Unit Test
 - 투표 생성시 비밀번호 입력 기능
 - 비밀번호 입력 후, 투표의 수정 및 삭제 기능
-- 로그인/로그아웃 기능
 - 나의 투표 모아보기 기능
-- 진행 중 여부에 따른 투표 목록 필터링 기능
-- [AWS](https://aws.amazon.com/) Elastic Beanstalk을 이용하여 배포하여 보세요. [참고 문서](https://github.com/vanilla-coding/docs/wiki/Setting-up-AWS-Elastic-Beanstalk)
