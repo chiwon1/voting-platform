@@ -1,3 +1,5 @@
+![Voting](/voting.jpeg)
+
 # Voting Platform
 
 ## Development
