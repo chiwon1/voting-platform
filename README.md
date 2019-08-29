@@ -6,6 +6,7 @@
 - 데이터베이스는 본인 컴퓨터(Local)에 [MongoDB를 설치](https://www.mongodb.com/download-center/community)하시고 [mongoose](https://mongoosejs.com/docs/connections.html)와 함께 사용하여 작업하시면 됩니다.
 - UI와 디자인에 제약을 두지 않습니다. 실제 상용화된 서비스라 생각하고 최대한 상식적인 웹을 구현해주시기 바랍니다.
 - 클라이언트 쪽 프레임워크는 사용하지 마세요. (i.e. React)
+- [Express Application Generator](https://expressjs.com/en/starter/generator.html)를 이용하여 프로젝트를 구성해보시기 바랍니다. 사용하지 않는 코드는 잊지말고 반드시 정리하세요.
 
 ## TODO
 
