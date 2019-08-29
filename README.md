@@ -46,6 +46,4 @@
 ### Advanced
 
 - Writing Unit Test
-- 투표 생성시 비밀번호 입력 기능
-- 비밀번호 입력 후, 투표의 수정 및 삭제 기능
-- 나의 투표 모아보기 기능
+- [Deployment to production](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/deployment)
