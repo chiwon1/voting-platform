@@ -5,7 +5,7 @@
 ## Development
 
 - 직접 Node/Express/MongoDB를 세팅하여 과제를 시작해주세요.
-- [Express Application Generator](https://expressjs.com/en/starter/generator.html)를 이용하여 프로젝트를 구성해보시기를 추천드립니다. *단, 사용하지 않는 코드는 잊지말고 반드시 정리하세요.*
+- [Express Application Generator](https://expressjs.com/en/starter/generator.html)를 이용하여 프로젝트를 구성해보시기를 추천드립니다. **단, 사용하지 않는 코드는 잊지말고 반드시 정리하세요.**
 - 데이터베이스는 본인 컴퓨터(Local)나 클라우드를 이용하시고 ODM은 [mongoose](https://mongoosejs.com/docs/connections.html)를 사용하여 작업하시면 됩니다.
 - UI와 디자인에 제약을 두지 않습니다. 실제 상용화된 서비스라 생각하고 최대한 상식적인 웹을 구현해주시기 바랍니다.
 - 클라이언트 쪽 프레임워크는 사용하지 마세요. (i.e. React)
