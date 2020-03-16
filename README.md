@@ -28,7 +28,6 @@
 - 로그인에 성공하면 `/` 페이지로 이동해야 합니다.
 - 로그인에 실패하면 `/login` 페이지로 다시 돌아와야 합니다.
 - 로그인 하지 않은 사용자는 회원가입 페이지, 로그인 페이지, 투표 상세 페이지(`/votings/:id`) 외의 그 어떤 페이지도 방문할 수 없어야 합니다.
-- 로그인 상태는 24시간동안 유지되어야 합니다.
 
 #### Resources
 
@@ -42,7 +41,7 @@
 - 투표 생성하기 버튼이 있어야 합니다.
 - 생성하기 버튼을 클릭할 경우, `/votings/new`로 이동합니다.
 - 내 투표보기 버튼이 있어야 합니다.
-- 내 투표보기 버튼을 클릭할 경우, `/votings`로 이동합니다.
+- 내 투표보기 버튼을 클릭할 경우, `/my-votings`로 이동합니다.
 
 ### 4. 투표 페이지 (`/votings/:id`)
 
@@ -50,15 +49,15 @@
 - 투표 만료 날짜 및 시간은 현재 날짜와 시간보다 과거일 수 없습니다.
 - 투표 목록으로 돌아갈 수 있는 버튼이 있어야 합니다.
 - 만료된 투표의 경우, 투표 결과를 표기해주어야 합니다. (가장 많은 선택을 받은 사항 표기)
-- 진행 중인 투표의 경우, 누구든지 투표에 참여할 수 있어야 합니다. (AJAX 금지)
+- 진행 중인 투표의 경우, 누구든지 투표에 참여할 수 있어야 합니다.
 - 중복 투표는 불가능합니다.
 - 만료되지 않은 투표는 투표를 하더라도 결과 확인이 불가능합니다.
 - 단, 투표 생성자는 언제든지 투표 결과를 확인할 수 있습니다.
 - 투표 생성자에게는 "삭제" 버튼이 보여야 합니다.
 - 투표 생성자가 "삭제"할 경우, 더 이상 투표는 참가할 수 없습니다.
 - 투표 생성자라 하더라도 이미 생성한 투표를 수정하는 것은 불가능합니다.
-- 로그인하지 않은 사용자가 투표할 경우, 로그인 페이지로 이동해야 합니다.
-- 로그인하지 않은 사용자가 로그인할 경우, 다시 방문했던 투표 페이지로 돌아와야 합니다.
+- 로그인하지 않은 사용자가 투표를 시도할 경우, 로그인 페이지로 이동해야 합니다.
+- 위 상황에서 로그인하지 않았던 사용자가 로그인 페이지에서 로그인 할  경우, 다시 방문했던 투표 페이지로 돌아와야 합니다.
 
 ### 5. 투표 생성 페이지 (`/votings/new`)
 
@@ -66,9 +65,9 @@
 - 투표 목록으로 돌아갈 수 있는 버튼이 있어야 합니다.
 - 선택 사항은 반드시 2개 이상이어야 생성이 가능합니다.
 - 투표를 생성하게 되면 메인 페이지의 전체 투표 목록에 반영되고 누구나 투표가 가능합니다.
-- 투표 생성 직후 사용자는 메인 페이지로 이동합니다.
+- 투표 생성 직후 사용자는 메인 페이지(`/`)로 이동합니다.
 
-### 6. 내 투표보기 페이지 (`/votings`)
+### 6. 내 투표보기 페이지 (`/my-votings`)
 
 - 현재 로그인한 사용자가 만든 투표 목록이 보여야 합니다.
 - 전체 투표 목록(제목, 만료 날짜 및 시간, 진행 중 여부)이 보여야 합니다.
@@ -76,11 +75,13 @@
 
 ### 7. 투표 생성 성공 페이지 (`/votings/success`)
 
+- 투표 생성 성공 페이지는 필요에 따라 다른 방식으로 대체하여도 괜찮습니다.
 - 성공적으로 투표가 생성되었다는 성공 메시지가 표기 되어야 합니다.
 - 메인 페이지로 돌아갈 수 있는 버튼 혹은 링크가 있어야 합니다.
 
 ### 8. 투표 생성 실패 페이지 (`/votings/error`)
 
+- 투표 생성 실패 페이지는 필요에 따라 다른 방식으로 대체하여도 괜찮습니다.
 - 투표 생성을 하지 못했다는 실패 메시지가 표기 되어야 합니다.
 - 메인 페이지로 돌아갈 수 있는 버튼 혹은 링크가 있어야 합니다.
 - 상세 에러 내용(Stack 정보 등)을 사용자에게 보여주어선 안됩니다.
@@ -88,4 +89,8 @@
 ### Advanced
 
 - Writing Unit Test
-- [Deployment to production](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/deployment)
+- Writing End-to-End Test with [Cypress.io](https://www.cypress.io/)
+- Deploying to AWS Elastic Beanstalk (아래 링크는 현재 AWS 설정 방식과 약간의 차이가 있을 수 있습니다.)
+  - [Setting up AWS Elastic Beanstalk](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Setting-up-AWS-Elastic-Beanstalk)
+  - [Installing AWS Elastic Beanstalk CLI](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Installing-Elastic-Beanstalk-CLI)
+  - [Deploying with AWS Elastic Beanstalk CLI](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Deploying-with-Elastic-Beanstalk-CLI)
