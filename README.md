@@ -9,7 +9,14 @@
 - 데이터베이스는 본인 컴퓨터(Local)나 클라우드를 이용하시고 ODM은 [mongoose](https://mongoosejs.com/docs/connections.html)를 사용하여 작업하시면 됩니다.
 - UI와 디자인에 제약을 두지 않습니다. 실제 상용화된 서비스라 생각하고 최대한 상식적인 웹을 구현해주시기 바랍니다.
 - 클라이언트 쪽 프레임워크는 사용하지 마세요. (i.e. React)
-- 필요에 의해 클라이언트 쪽 자바스크립트를 이용하셔도 괜찮습니다. 예) 간단한 이벤트 처리 및 AJAX
+- 필요에 의해 클라이언트 쪽 자바스크립트를 직접 작성하여 이용하셔도 괜찮습니다. 예) 간단한 이벤트 처리 및 AJAX
+
+## Keep in mind
+
+이번 과제에서는 아래 사안들에 대해 깊게 고민하며 작업하세요.
+
+1. 데이터 스키마 신중히 설계하기
+2. CORS에 대한 이해 ex) OPTIONS 요청, Server - Server 요청, Server - Client 요청
 
 ## TODO
 
@@ -86,13 +93,7 @@
 - 메인 페이지로 돌아갈 수 있는 버튼 혹은 링크가 있어야 합니다.
 - 상세 에러 내용(Stack 정보 등)을 사용자에게 보여주어선 안됩니다.
 
-### Advanced
+## After
 
-- Writing Unit Test
-- Writing End-to-End Test with [Cypress.io](https://www.cypress.io/)
-- Deploying to AWS Elastic Beanstalk (아래 링크는 현재 AWS 설정 방식과 약간의 차이가 있을 수 있습니다.)
-  - [Setting up AWS Elastic Beanstalk](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Setting-up-AWS-Elastic-Beanstalk)
-  - [Installing AWS Elastic Beanstalk CLI](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Installing-Elastic-Beanstalk-CLI)
-  - [Deploying with AWS Elastic Beanstalk CLI](https://github.com/vanilla-coding/deploy-with-aws-eb-and-circleci/wiki/Deploying-with-Elastic-Beanstalk-CLI)
-
-**AWS Access key ID와 Secret access key는 그 어떤 경우에도 Github/Gitlab 등의 클라우드에 업로드 되서는 안됩니다. 특별히 주의해주세요.**
+1. AWS 서비스를 이용한 서버 배포하기
+2. 백엔드 스케일링에 대한 시도 및 테스트 (로컬 환경에서라도)
