@@ -34,4 +34,10 @@ userSchema.pre("save", async function(next) {
   }
 });
 
+userSchema.methods.comparePassword = async function (plainPassword) {
+  const isMatch = await bcrypt.compare(plainPassword, this.password);
+
+  return isMatch;
+};
+
 module.exports = mongoose.model("User", userSchema);

@@ -2,6 +2,11 @@ const express = require("express");
 const path = require("path");
 require("dotenv").config();
 
+const initSession = require("./config/session");
+const passport = require("passport");
+const initPassport = require("./config/passport");
+const connectMongoDB = require("./config/db");
+
 const index = require("./routes/index");
 const signup = require("./routes/signup");
 const login = require("./routes/login");
@@ -10,14 +15,17 @@ const login = require("./routes/login");
 // const myVotings = require("./routes/myVotings");
 
 const connectMongoDB = require("./config/db");
-
-// const authentication = require("./routes/middlewares/authentication");
 const handleInvalidUrl = require("./routes/middlewares/handleInvalidUrl");
 const handleError = require("./routes/middlewares/handleError");
 
 const app = express();
 
 connectMongoDB();
+initPassport(passport);
+
+app.use(initSession());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
