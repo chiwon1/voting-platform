@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const index = require("./routes/index");
 // const signup = require("./routes/signup");
-// const login = require("./routes/login");
+const login = require("./routes/login");
 // const logout = require("./routes/logout");
 // const votings = require("./routes/votings");
 // const myVotings = require("./routes/myVotings");
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // app.use("/signup", signup);
-// app.use("/login", login);
+app.use("/login", login);
 app.use("/", index);
 // app.use("/logout", authentication, logout);
 // app.use("/votings/", authentication, votings);
