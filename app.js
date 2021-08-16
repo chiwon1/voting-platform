@@ -3,7 +3,7 @@ const path = require("path");
 require("dotenv").config();
 
 const index = require("./routes/index");
-// const signup = require("./routes/signup");
+const signup = require("./routes/signup");
 const login = require("./routes/login");
 // const logout = require("./routes/logout");
 // const votings = require("./routes/votings");
@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use("/signup", signup);
+app.use("/signup", signup);
 app.use("/login", login);
 app.use("/", index);
 // app.use("/logout", authentication, logout);
