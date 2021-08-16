@@ -14,7 +14,7 @@ const login = require("./routes/login");
 // const votings = require("./routes/votings");
 // const myVotings = require("./routes/myVotings");
 
-const connectMongoDB = require("./config/db");
+const authenticate = require("./routes/middlewares/authenticate");
 const handleInvalidUrl = require("./routes/middlewares/handleInvalidUrl");
 const handleError = require("./routes/middlewares/handleError");
 
@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/signup", signup);
 app.use("/login", login);
-app.use("/", index);
+app.use("/", authenticate, index);
 // app.use("/logout", authentication, logout);
 // app.use("/votings/", authentication, votings);
 // app.use("/my-votings/", authentication, myVotings);
