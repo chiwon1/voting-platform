@@ -16,8 +16,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  token: String,
-  tokenExp: Number,
 });
 
 userSchema.pre("save", async function(next) {
