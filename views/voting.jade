@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= "Voting platform"
+  h4 #{voting.title}
+  div 생성자: #{voting.creator}
+  div 만료일시: #{voting.expiredAt}
+  div 진행 중 여부: #{voting.isProgress}

@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  h2= "Voting platform"
+  h1= "Voting platform"
+  h2= "List"
   form(action="/logout" method="post")
     button= "Logout"
   form(action="/votings/new" method="get")
@@ -13,6 +13,6 @@ block content
     each voting in votings
       a(href="/votings/#{voting._id}")
         h4 #{voting.title}
-      span 생성자: #{voting.creator}
-      span 만료일시: #{voting.expiredAt}
-      span 진행 중 여부: #{voting.isProgress}
+      div 생성자: #{voting.creator}
+      div 만료일시: #{voting.expiredAt}
+      div 진행 중 여부: #{voting.isProgress}
