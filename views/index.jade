@@ -5,3 +5,14 @@ block content
   h2= "Voting platform"
   form(action="/logout" method="post")
     button= "Logout"
+  form(action="/votings/new" method="get")
+    button= "Create vote"
+  form(action="/my-votings" method="get")
+    button= "View my votings"
+  ul
+    each voting in votings
+      a(href="/votings/#{voting._id}")
+        h4 #{voting.title}
+      span 생성자: #{voting.creator}
+      span 만료일시: #{voting.expiredAt}
+      span 진행 중 여부: #{voting.isProgress}

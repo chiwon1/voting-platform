@@ -4,7 +4,6 @@ const Voting = require("../models/Voting");
 
 router.get("/", async function (req, res, next) {
   const votings = await Voting.find();
-  console.log("votings", votings);
 
   res.render("index", { votings });
 });
