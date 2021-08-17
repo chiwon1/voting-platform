@@ -1,8 +1,12 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const Voting = require("../models/Voting");
 
-router.get("/", function(req, res, next) {
-  res.render("index");
+router.get("/", async function (req, res, next) {
+  const votings = await Voting.find();
+  console.log("votings", votings);
+
+  res.render("index", { votings });
 });
 
 module.exports = router;
