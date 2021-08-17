@@ -1,6 +1,7 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
-require("dotenv").config();
 
 const initSession = require("./config/session");
 const passport = require("passport");
@@ -10,7 +11,7 @@ const connectMongoDB = require("./config/db");
 const index = require("./routes/index");
 const signup = require("./routes/signup");
 const login = require("./routes/login");
-// const logout = require("./routes/logout");
+const logout = require("./routes/logout");
 // const votings = require("./routes/votings");
 // const myVotings = require("./routes/myVotings");
 
@@ -37,7 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/", authenticate, index);
-// app.use("/logout", authentication, logout);
+app.use("/logout", authenticate, logout);
 // app.use("/votings/", authentication, votings);
 // app.use("/my-votings/", authentication, myVotings);
 
