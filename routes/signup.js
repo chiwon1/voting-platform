@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 const validator = require("email-validator");
 const createError = require("http-errors");
 
 const User = require("../models/User");
-const { ERROR_INVALID_SIGNUP_INPUT, ERROR_DUPLICATE_EMAIL } = require("../constants/errorConstants");
+const {
+  ERROR_INVALID_SIGNUP_INPUT,
+  ERROR_DUPLICATE_EMAIL,
+  ERROR_CONFIRMATION_PASSWORD_NOT_MATCHING,
+} = require("../constants/errorConstants");
 
 router.get("/", function (req, res, next) {
   res.render("signup");
@@ -25,6 +30,10 @@ router.post("/", function (req, res, next) {
 
     if (!validator.validate(email)) {
       throw createError(400, ERROR_INVALID_SIGNUP_INPUT);
+    }
+
+    if (password !== confirmPassword) {
+      throw createError(400, ERROR_CONFIRMATION_PASSWORD_NOT_MATCHING);
     }
 
     const user = new User(req.body);
