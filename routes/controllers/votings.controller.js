@@ -8,7 +8,28 @@ const {
   ERROR_INVALID_VOTING_ID,
 } = require("../../constants/errorConstants");
 
-exports.get = async function (req, res, next) {
+exports.getCreatePage = async function (req, res, next) {
+  const name = req.user.name;
+
+  res.render("votingCreation", { name });
+};
+
+exports.createVoting = function (req, res, next) {
+  const id = req.user._id;
+
+  const obj = {
+    ...req.body,
+    creator: mongoose.Types.ObjectId(id),
+    options: req.body.options.map(option => ({ title: option })),
+  };
+
+  const voting = new Voting(obj);
+
+  voting.save();
+
+  res.redirect(302, "/");
+};
+
   const id = req.params._id;
 
   if (!mongoose.isValidObjectId(id)) {

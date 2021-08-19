@@ -1,5 +1,15 @@
 const mongoose = require("mongoose");
 
+const optionSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  whoVoted: {
+    type: Array,
+  },
+});
+
 const votingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -7,31 +17,19 @@ const votingSchema = new mongoose.Schema({
     required: true,
   },
   creator: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   expiredAt: {
     type: Date,
     required: true,
   },
-  isProgress: {
-    type: Boolean,
+  options: {
+    type: [optionSchema],
     required: true,
+    min: 2,
   },
-  // options: {
-  //   type: Array,
-  //   of: {
-  //     title: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //     users: [{
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: 'User',
-  //     }],
-  //   },
-  //   minLength: 2,
-  // },
 });
 
 module.exports = mongoose.model("Voting", votingSchema);

@@ -11,8 +11,8 @@ block content
     button= "View my votings"
   ul
     each voting in votings
-      a(href="/votings/#{voting._id}")
+      a(href=`/votings/${voting._id}`)
         h4 #{voting.title}
-      div 생성자: #{voting.creator}
+      div 생성자: #{voting.creator.name}
       div 만료일시: #{voting.expiredAt}
-      div 진행 중 여부: #{voting.isProgress}
+      div 진행 중 여부: #{voting.isInProgress}

@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= "Voting platform"
+  h2= "Create Vote"
+  form(action="/votings/new" method="post")
+    input(type="hidden" name="creator" value=`${name}` placeholder="creator")
+    input(type="text" name="title" placeholder="Title" required)
+    input(type="datetime-local" name="expiredAt" placeholder="ExpiredAt" required)
+    div(class="add-option-wrapper")
+      input(type="text" placeholder="Option" class="user-option")
+      button(type="button" class="add-option") Add Option
+      ol(name="options" class="voting-option-list")
+    button= "Submit"
+  a(href="/")= "목록 페이지로 이동"
+  script(src="/javascripts/addOptionHandler.js")
