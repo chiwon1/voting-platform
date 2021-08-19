@@ -13,7 +13,7 @@ const signup = require("./routes/signup");
 const login = require("./routes/login");
 const logout = require("./routes/logout");
 const votings = require("./routes/votings");
-// const myVotings = require("./routes/myVotings");
+const myVotings = require("./routes/myVotings");
 
 const authenticate = require("./routes/middlewares/authenticate");
 const handleInvalidUrl = require("./routes/middlewares/handleInvalidUrl");
@@ -40,7 +40,7 @@ app.use("/login", login);
 app.use("/", authenticate, index);
 app.use("/logout", authenticate, logout);
 app.use("/votings/", authenticate, votings);
-// app.use("/my-votings/", authentication, myVotings);
+app.use("/my-votings/", authenticate, myVotings);
 
 app.use(handleInvalidUrl);
 app.use(handleError);

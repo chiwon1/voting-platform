@@ -38,8 +38,8 @@ exports.getDetails = async function (req, res, next) {
   }
 
   const [voting, hasVoted] = await mongoose.Promise.all([
-    Voting.aggregate([{
-      $match: { _id : mongoose.Types.ObjectId(votingId) }},
+    Voting.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(votingId) }},
       { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }}},
       {
         $lookup: {
