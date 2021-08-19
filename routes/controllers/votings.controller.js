@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const createError = require("http-errors");
 
-const User = require("../../models/User");
 const Voting = require("../../models/Voting");
 const Ballot = require("../../models/Ballot");
 
@@ -19,13 +18,11 @@ exports.getCreatePage = async function (req, res, next) {
 exports.createVoting = function (req, res, next) {
   const id = req.user._id;
 
-  const obj = {
+  const voting = new Voting({
     ...req.body,
     creator: mongoose.Types.ObjectId(id),
     options: req.body.options.map(option => ({ title: option })),
-  };
-
-  const voting = new Voting(obj);
+  });
 
   voting.save();
 
@@ -33,9 +30,10 @@ exports.createVoting = function (req, res, next) {
 };
 
 exports.getDetails = async function (req, res, next) {
-  const id = req.params._id;
+  const votingId = req.params._id;
+  const userId = req.user._id;
 
-  if (!mongoose.isValidObjectId(id)) {
+  if (!mongoose.isValidObjectId(votingId)) {
     next(createError(400, ERROR_INVALID_VOTING_ID));
   }
 
@@ -66,21 +64,19 @@ exports.getDetails = async function (req, res, next) {
     return next(createError(404, ERROR_NOT_FOUND));
   }
 
-  const hasVoted = await Ballot.exists({ votingId: id });
-  const isCurrentUserCreator = req.user._id.equals(voting.creator._id.toString());
+  const isCurrentUserCreator = userId.equals(voting.creator._id.toString());
 
   if (isCurrentUserCreator || !voting.isInProgress) {
-    const ballot = await Ballot.aggregate([{
-        $match: { voting : mongoose.Types.ObjectId(id)}
-      },
-      {
-        $group: {
-          _id: "$option",
-          count: { $sum: 1 },
-        }
-      },
-      ]).then(arr => (
-      Object.assign({}, ...arr.map(value => ({ [value._id.toString()]: value.count })))));
+    const ballot = await Ballot.aggregate([
+    {
+      $match: { voting: mongoose.Types.ObjectId(votingId)}
+    },
+    {
+      $group: {
+        _id: "$option",
+        count: { $sum: 1 },
+      }
+    }]).then(arr => (Object.assign({}, ...arr.map(value => ({ [value._id.toString()]: value.count })))));
 
     const votingWithOption = {
       ...voting,
@@ -100,8 +96,17 @@ exports.getDetails = async function (req, res, next) {
   res.render("votingDetails", { voting, isCurrentUserCreator, hasVoted });
 };
 
-// exports.create = async function (req, res, next) {
-// };
+exports.vote = async function (req, res, next) {
+  const ballot = await new Ballot({
+    user: req.user._id,
+    voting: req.body.votingId,
+    option: req.body.option,
+  });
+
+  ballot.save();
+
+  res.redirect(302, "/");
+};
 
 // exports.update = async function (req, res, next) {
 // };

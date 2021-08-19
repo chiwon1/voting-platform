@@ -5,9 +5,6 @@ const optionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  whoVoted: {
-    type: Array,
-  },
 });
 
 const votingSchema = new mongoose.Schema({
