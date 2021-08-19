@@ -3,9 +3,14 @@ const router = express.Router();
 const Voting = require("../models/Voting");
 
 router.get("/", async function (req, res, next) {
-  const votings = await Voting.find();
+  const aggregatedVoting = await Voting.aggregate([{
+    $addFields: {
+      isInProgress : { $gt: ["$expiredAt", new Date()] }
+    }}]);
 
-  res.render("index", { votings });
+  const populatedVoting = await Voting.populate(aggregatedVoting, "creator");
+
+  res.render("index", { votings : populatedVoting });
 });
 
 module.exports = router;
