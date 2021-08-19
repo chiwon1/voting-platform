@@ -16,17 +16,21 @@ exports.getCreatePage = async function (req, res, next) {
 };
 
 exports.createVoting = function (req, res, next) {
-  const id = req.user._id;
+  try {
+    const id = req.user._id;
 
-  const voting = new Voting({
-    ...req.body,
-    creator: mongoose.Types.ObjectId(id),
-    options: req.body.options.map(option => ({ title: option })),
-  });
+    const voting = new Voting({
+      ...req.body,
+      creator: mongoose.Types.ObjectId(id),
+      options: req.body.options.map(option => ({ title: option })),
+    });
 
-  voting.save();
+    voting.save();
 
-  res.redirect(302, "/");
+    res.render("votingCreation/success");
+  } catch (err) {
+    res.render("votingCreation/failure");
+  }
 };
 
 exports.getDetails = async function (req, res, next) {
