@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= "Voting platform"
+  h4 #{voting.title}
+  div 생성자: #{voting.creator.name}
+  div 만료일시: #{voting.expiredAt}
+  div 진행 중 여부: #{voting.isInProgress}
+  form(action=`/votings/${voting._id}` method="post")
+    each option in voting.options
+      div
+        input(
+          type="radio"
+          name="option"
+          value=option._id
+          disabled=!voting.isInProgress || hasVoted
+        )
+        label(for="huey") #{option.title}
+        p #{option.count}명
+    button 투표
+  a(href="/")= "목록 페이지로 이동"
+  if isCurrentUserCreator
+    button(onclick="onDelete('" + voting._id+ "')") 삭제
+  script(type="text/javascript").
+    function onDelete(id) {
+      fetch(`/votings/${id}`,{method: "DELETE"})
+      .then(location.href = "/")
+    }
