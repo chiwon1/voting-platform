@@ -8,9 +8,9 @@ const passport = require("passport");
 const initPassport = require("./config/passport");
 const connectMongoDB = require("./config/db");
 
-const index = require("./routes/index");
 const signup = require("./routes/signup");
 const login = require("./routes/login");
+const index = require("./routes/index");
 const logout = require("./routes/logout");
 const votings = require("./routes/votings");
 const myVotings = require("./routes/myVotings");

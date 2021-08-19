@@ -6,6 +6,7 @@ const validator = require("email-validator");
 const createError = require("http-errors");
 
 const User = require("../models/User");
+
 const {
   ERROR_INVALID_SIGNUP_INPUT,
   ERROR_DUPLICATE_EMAIL,

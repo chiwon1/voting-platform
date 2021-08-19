@@ -12,7 +12,7 @@ const {
 exports.getCreatePage = async function (req, res, next) {
   const name = req.user.name;
 
-  res.render("votingCreation", { name });
+  res.render("votingCreation/creation", { name });
 };
 
 exports.createVoting = function (req, res, next) {
@@ -47,11 +47,12 @@ exports.getDetails = async function (req, res, next) {
       { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }}},
       {
         $lookup: {
-        from: "users",
-        localField : "creator",
-        foreignField : "_id",
-        as: "creator",
-      }},
+          from: "users",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
       {
         $project: {
           title: 1,
@@ -59,8 +60,8 @@ exports.getDetails = async function (req, res, next) {
           isInProgress: 1,
           options: 1,
           creator: { $arrayElemAt: ["$creator", 0] },
-        }
-      }
+        },
+      },
     ]).then(value => value[0]), Ballot.exists({ user: userId, voting: votingId })
   ]);
 
@@ -72,15 +73,23 @@ exports.getDetails = async function (req, res, next) {
 
   if (isCurrentUserCreator || !voting.isInProgress) {
     const ballot = await Ballot.aggregate([
-    {
-      $match: { voting: mongoose.Types.ObjectId(votingId)}
-    },
-    {
-      $group: {
-        _id: "$option",
-        count: { $sum: 1 },
-      }
-    }]).then(arr => (Object.assign({}, ...arr.map(value => ({ [value._id.toString()]: value.count })))));
+      { $match: { voting: mongoose.Types.ObjectId(votingId)} },
+      {
+        $group: {
+          _id: "$option",
+          count: { $sum: 1 },
+        },
+      },
+    ]).then(arr => (
+      Object.assign(
+        {},
+        ...arr.map(
+          value => (
+            { [value._id.toString()]: value.count }
+          )
+        )
+      )
+    ));
 
     const votingWithOption = {
       ...voting,
@@ -112,7 +121,7 @@ exports.vote = async function (req, res, next) {
   res.redirect(302, "/");
 };
 
-// delete 이후 index page로 redirection 될 때 가끔 삭제된 투표 나타남
+// delete 이후 index page로 redirection 될 때 삭제된 투표 보이고 새로고침해야 사라지는 경우 존재
 exports.delete = async function (req, res, next) {
   const votingId = req.params._id;
 

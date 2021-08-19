@@ -15,7 +15,6 @@ function handleError(err, req, res, next) {
     res.json({
       error: req.app.get("env") === "development" ? res.locals.message : ERROR_500_SERVER
     });
-
   } else {
     res.render("error");
   }

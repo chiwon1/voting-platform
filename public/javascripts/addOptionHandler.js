@@ -37,5 +37,4 @@
 
     $addedOptionList.appendChild(wrapper);
   });
-
 })();

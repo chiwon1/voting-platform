@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const ballotSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
   },
   voting: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Voting"
+    ref: "Voting",
   },
   option: {
     type: mongoose.Schema.Types.ObjectId,

@@ -1,20 +1,109 @@
-[
-  {
-    "title": "대통령 선거",
-    "creator": "tester",
-    "expiredAt": "Tue Aug 17 2021 01:24:02 GMT+0900 (Korean Standard Time)",
-    "isProgress": "true"
+[{
+  "_id": {
+    "$oid": "611e87cd0b86c8503062c98b"
   },
-  {
-    "title": "지방 선거",
-    "creator": "tester",
-    "expiredAt": "Tue Aug 22 2021 01:24:02 GMT+0900 (Korean Standard Time)",
-    "isProgress": "false"
+  "creator": {
+    "$oid": "611e751a9b871641c6156973"
   },
-  {
-    "title": "국회의원 선거",
-    "creator": "tester",
-    "expiredAt": "Tue Aug 15 2021 01:24:02 GMT+0900 (Korean Standard Time)",
-    "isProgress": "false"
-  }
-]
+  "title": "투표 1",
+  "expiredAt": {
+    "$date": "2021-08-27T16:36:00Z"
+  },
+  "options": [
+    {
+      "_id": {
+        "$oid": "611e87cd0b86c8503062c98c"
+      },
+      "title": "1"
+    },
+    {
+      "_id": {
+        "$oid": "611e87cd0b86c8503062c98d"
+      },
+      "title": "2"
+    },
+    {
+      "_id": {
+        "$oid": "611e87cd0b86c8503062c98e"
+      },
+      "title": "3"
+    },
+    {
+      "_id": {
+        "$oid": "611e87cd0b86c8503062c98f"
+      },
+      "title": "4"
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "611e881c0b86c8503062c9a2"
+  },
+  "creator": {
+    "$oid": "611e88030b86c8503062c997"
+  },
+  "title": "투표 2",
+  "expiredAt": {
+    "$date": "2021-08-25T16:34:00Z"
+  },
+  "options": [
+    {
+      "_id": {
+        "$oid": "611e881c0b86c8503062c9a3"
+      },
+      "title": "1"
+    },
+    {
+      "_id": {
+        "$oid": "611e881c0b86c8503062c9a4"
+      },
+      "title": "2"
+    },
+    {
+      "_id": {
+        "$oid": "611e881c0b86c8503062c9a5"
+      },
+      "title": "3"
+    },
+    {
+      "_id": {
+        "$oid": "611e881c0b86c8503062c9a6"
+      },
+      "title": "4"
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "611e88510b86c8503062c9c5"
+  },
+  "creator": {
+    "$oid": "611e88300b86c8503062c9ae"
+  },
+  "title": "투표 3",
+  "expiredAt": {
+    "$date": "2021-08-27T16:35:00Z"
+  },
+  "options": [
+    {
+      "_id": {
+        "$oid": "611e88510b86c8503062c9c6"
+      },
+      "title": "1"
+    },
+    {
+      "_id": {
+        "$oid": "611e88510b86c8503062c9c7"
+      },
+      "title": "2"
+    },
+    {
+      "_id": {
+        "$oid": "611e88510b86c8503062c9c8"
+      },
+      "title": "3"
+    }
+  ],
+  "__v": 0
+}]
