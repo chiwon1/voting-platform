@@ -21,9 +21,9 @@ block content
     button 투표
   a(href="/")= "목록 페이지로 이동"
   if isCurrentUserCreator
-    button(onclick="onDelete('" + voting._id+ "')") 삭제
+    button(onclick="handleDeleteOnClick('" + voting._id+ "')") 삭제
   script(type="text/javascript").
-    function onDelete(id) {
+    function handleDeleteOnClick(id) {
       fetch(`/votings/${id}`,{method: "DELETE"})
-      .then(location.href = "/")
+        .then(location.href = "/")
     }

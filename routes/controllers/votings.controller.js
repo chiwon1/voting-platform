@@ -112,5 +112,11 @@ exports.vote = async function (req, res, next) {
   res.redirect(302, "/");
 };
 
-// exports.update = async function (req, res, next) {
-// };
+// delete 이후 index page로 redirection 될 때 가끔 삭제된 투표 나타남
+exports.delete = async function (req, res, next) {
+  const votingId = req.params._id;
+
+  await Voting.deleteOne({ _id: votingId });
+
+  res.status(200);
+};
