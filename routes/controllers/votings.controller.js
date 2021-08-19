@@ -39,26 +39,28 @@ exports.getDetails = async function (req, res, next) {
     next(createError(400, ERROR_INVALID_VOTING_ID));
   }
 
-  const voting = await Voting.aggregate([{
-    $match: { _id : mongoose.Types.ObjectId(id) }},
-    { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }}},
-    {
-      $lookup: {
-      from: "users",
-      localField : "creator",
-      foreignField : "_id",
-      as: "creator",
-    }},
-    {
-      $project: {
-        title: 1,
-        expiredAt: 1,
-        isInProgress: 1,
-        options: 1,
-        creator: { $arrayElemAt:["$creator", 0] },
+  const [voting, hasVoted] = await mongoose.Promise.all([
+    Voting.aggregate([{
+      $match: { _id : mongoose.Types.ObjectId(votingId) }},
+      { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }}},
+      {
+        $lookup: {
+        from: "users",
+        localField : "creator",
+        foreignField : "_id",
+        as: "creator",
+      }},
+      {
+        $project: {
+          title: 1,
+          expiredAt: 1,
+          isInProgress: 1,
+          options: 1,
+          creator: { $arrayElemAt: ["$creator", 0] },
+        }
       }
-    }
-  ]).then(value => value[0]);
+    ]).then(value => value[0]), Ballot.exists({ user: userId, voting: votingId })
+  ]);
 
   if (!voting) {
     return next(createError(404, ERROR_NOT_FOUND));
