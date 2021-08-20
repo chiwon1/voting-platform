@@ -11,7 +11,7 @@ const {
   ERROR_INVALID_VOTING_CREATOR,
   ERROR_INVALID_VOTING_OPTION,
   ERROR_NOT_ENOUGH_OPTIONS_INPUT,
-  ERROR_INVALID_EXPIRATION,
+  ERROR_INVALID_EXPIRATION_DATE,
   ERROR_INVALID_USER,
   ERROR_INVALID_VOTING,
   ERROR_INVALID_DATA,
@@ -37,7 +37,11 @@ exports.createVoting = function (req, res, next) {
     }
 
     if (!expiredAt) {
-      throw createError(400, ERROR_INVALID_EXPIRATION);
+      throw createError(400, ERROR_INVALID_EXPIRATION_DATE);
+    }
+
+    if (new Date(expiredAt) <= new Date()) {
+      throw createError(400, ERROR_INVALID_EXPIRATION_DATE);
     }
 
     if (!options) {
