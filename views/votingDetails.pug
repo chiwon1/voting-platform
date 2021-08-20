@@ -24,6 +24,6 @@ block content
     button(onclick="handleDeleteOnClick('" + voting._id+ "')") 삭제
   script(type="text/javascript").
     function handleDeleteOnClick(id) {
-      fetch(`/votings/${id}/delete`,{ method: "post" })
+      fetch(`/votings/${id}/delete`, { method: "post" })
         .then(location.href = "/");
     }
