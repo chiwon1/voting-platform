@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 const { ERROR_NOT_FOUND } = require("./../../constants/errorConstants");
 
-const handleInvalidUrl = function (req, res, next) {
+function handleInvalidUrl(req, res, next) {
   next(createError(404, ERROR_NOT_FOUND));
 }
 

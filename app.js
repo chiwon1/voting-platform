@@ -39,8 +39,8 @@ app.use("/", index);
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/logout", authenticate, logout);
-app.use("/votings/", votings);
-app.use("/my-votings/", authenticate, myVotings);
+app.use("/votings", votings);
+app.use("/my-votings", authenticate, myVotings);
 
 app.use(handleInvalidUrl);
 app.use(handleError);
