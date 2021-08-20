@@ -73,8 +73,8 @@ exports.getDetails = async function (req, res, next) {
   }
 
   const aggregatedVoting = Voting.aggregate([
-    { $match: { _id: mongoose.Types.ObjectId(votingId) }},
-    { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }}},
+    { $match: { _id: mongoose.Types.ObjectId(votingId) } },
+    { $addFields: { isInProgress: { $gt: ["$expiredAt", new Date()] } } },
     {
       $lookup: {
         from: "users",
@@ -106,7 +106,7 @@ exports.getDetails = async function (req, res, next) {
 
   if (isCurrentUserCreator || !voting.isInProgress) {
     const ballot = await Ballot.aggregate([
-      { $match: { voting: mongoose.Types.ObjectId(votingId)} },
+      { $match: { voting: mongoose.Types.ObjectId(votingId) } },
       {
         $group: {
           _id: "$option",

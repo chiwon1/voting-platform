@@ -15,13 +15,15 @@ router.get("/", async function (req, res, next) {
     }
 
     const aggregatedVoting = await Voting.aggregate([
-      { $match: { creator: mongoose.Types.ObjectId(userId) }},
-      { $addFields: { isInProgress : { $gt: ["$expiredAt", new Date()] }},
-    }]);
+      { $match: { creator: mongoose.Types.ObjectId(userId) } },
+      {
+        $addFields: { isInProgress: { $gt: ["$expiredAt", new Date()] } },
+      }
+    ]);
 
     const populatedVoting = await Voting.populate(aggregatedVoting, "creator");
 
-    res.render("index", { votings : populatedVoting });
+    res.render("index", { votings: populatedVoting });
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
       return next(createError(400, ERROR_INVALID_DATA));

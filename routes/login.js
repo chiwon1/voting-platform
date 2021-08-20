@@ -7,8 +7,8 @@ router.get("/", function (req, res, next) {
   res.render("login");
 });
 
-router.post("/", function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
+router.post("/", function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
     if (err) {
       return next(err);
     }
@@ -17,7 +17,7 @@ router.post("/", function(req, res, next) {
       return res.redirect("/login");
     }
 
-    req.logIn(user, function(err) {
+    req.logIn(user, function (err) {
       if (err) {
         return next(err);
       }
