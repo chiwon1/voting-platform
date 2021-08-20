@@ -66,7 +66,7 @@ exports.createVoting = function (req, res, next) {
 
 exports.getDetails = async function (req, res, next) {
   const votingId = req.params._id;
-  const userId = req.user._id;
+  const userId = req.user ? req.user._id : null;
 
   if (!mongoose.isValidObjectId(votingId)) {
     next(createError(400, ERROR_INVALID_VOTING_ACCESS));
@@ -102,7 +102,7 @@ exports.getDetails = async function (req, res, next) {
     return next(createError(404, ERROR_NOT_FOUND));
   }
 
-  const isCurrentUserCreator = userId.equals(voting.creator._id.toString());
+  const isCurrentUserCreator = userId?.equals(voting.creator._id.toString());
 
   if (isCurrentUserCreator || !voting.isInProgress) {
     const ballot = await Ballot.aggregate([
@@ -144,6 +144,12 @@ exports.getDetails = async function (req, res, next) {
 
 exports.vote = async function (req, res, next) {
   try {
+    if (!req.user) {
+      req.session.originalUrl = req.originalUrl;
+
+      return res.redirect(302, "/login");
+    }
+
     const userId = req.user._id;
     const { votingId, option: optionId } = req.body;
 

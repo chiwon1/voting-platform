@@ -8,9 +8,9 @@ const passport = require("passport");
 const initPassport = require("./config/passport");
 const connectMongoDB = require("./config/db");
 
+const index = require("./routes/index");
 const signup = require("./routes/signup");
 const login = require("./routes/login");
-const index = require("./routes/index");
 const logout = require("./routes/logout");
 const votings = require("./routes/votings");
 const myVotings = require("./routes/myVotings");
@@ -35,11 +35,11 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/", index);
 app.use("/signup", signup);
 app.use("/login", login);
-app.use("/", authenticate, index);
 app.use("/logout", authenticate, logout);
-app.use("/votings/", authenticate, votings);
+app.use("/votings/", votings);
 app.use("/my-votings/", authenticate, myVotings);
 
 app.use(handleInvalidUrl);
