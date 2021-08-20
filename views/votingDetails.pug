@@ -17,13 +17,15 @@ block content
           disabled=!voting.isInProgress || hasVoted
         )
         label(for="huey") #{option.title}
-        p #{option.count}명
+        if option.count
+          p #{option.count}명
     button 투표
-  a(href="/")= "목록 페이지로 이동"
   if isCurrentUserCreator
-    button(onclick="handleDeleteOnClick('" + voting._id+ "')") 삭제
+    div
+      button(onclick="handleDeleteOnClick('" + voting._id+ "')") 삭제
   script(type="text/javascript").
     function handleDeleteOnClick(id) {
       fetch(`/votings/${id}/delete`, { method: "post" })
         .then(location.href = "/");
     }
+  a(href="/")= "목록 페이지로 이동"
