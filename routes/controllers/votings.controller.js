@@ -6,7 +6,16 @@ const Ballot = require("../../models/Ballot");
 
 const {
   ERROR_NOT_FOUND,
-  ERROR_INVALID_VOTING_ID,
+  ERROR_INVALID_VOTING_ACCESS,
+  ERROR_INVALID_TITLE,
+  ERROR_INVALID_VOTING_CREATOR,
+  ERROR_INVALID_VOTING_OPTION,
+  ERROR_NOT_ENOUGH_OPTIONS_INPUT,
+  ERROR_INVALID_EXPIRATION,
+  ERROR_INVALID_USER,
+  ERROR_INVALID_VOTING,
+  ERROR_INVALID_DATA,
+  ERROR_INVALID_ACCESS,
 } = require("../../constants/errorConstants");
 
 exports.getCreatePage = async function (req, res, next) {
@@ -17,6 +26,28 @@ exports.getCreatePage = async function (req, res, next) {
 
 exports.createVoting = function (req, res, next) {
   try {
+    const { title, creator, expiredAt, options } = req.body;
+
+    if (!title) {
+      throw createError(400, ERROR_INVALID_TITLE);
+    }
+
+    if (!creator) {
+      throw createError(400, ERROR_INVALID_VOTING_CREATOR);
+    }
+
+    if (!expiredAt) {
+      throw createError(400, ERROR_INVALID_EXPIRATION);
+    }
+
+    if (!options) {
+      throw createError(400, ERROR_INVALID_VOTING_OPTION);
+    }
+
+    if (options.length < 2) {
+      throw createError(400, ERROR_NOT_ENOUGH_OPTIONS_INPUT);
+    }
+
     const id = req.user._id;
 
     const voting = new Voting({
@@ -38,7 +69,7 @@ exports.getDetails = async function (req, res, next) {
   const userId = req.user._id;
 
   if (!mongoose.isValidObjectId(votingId)) {
-    next(createError(400, ERROR_INVALID_VOTING_ID));
+    next(createError(400, ERROR_INVALID_VOTING_ACCESS));
   }
 
   const aggregatedVoting = Voting.aggregate([
@@ -112,21 +143,56 @@ exports.getDetails = async function (req, res, next) {
 };
 
 exports.vote = async function (req, res, next) {
-  const ballot = await new Ballot({
-    user: req.user._id,
-    voting: req.body.votingId,
-    option: req.body.option,
-  });
+  try {
+    const userId = req.user._id;
+    const { votingId, option: optionId } = req.body;
 
-  ballot.save();
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw createError(400, ERROR_INVALID_USER);
+    }
 
-  res.redirect(302, "/");
+    if (!mongoose.Types.ObjectId.isValid(votingId)) {
+      throw createError(400, ERROR_INVALID_VOTING);
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(optionId)) {
+      throw createError(400, ERROR_INVALID_VOTING_OPTION);
+    }
+
+    const ballot = await new Ballot({
+      user: userId,
+      voting: votingId,
+      option: optionId,
+    });
+
+    ballot.save();
+
+    res.redirect(302, "/");
+  } catch (err) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      return next(createError(400, ERROR_INVALID_DATA));
+    }
+
+    next(err);
+  }
 };
 
 exports.delete = async function (req, res, next) {
   const votingId = req.params._id;
 
-  await Voting.deleteOne({ _id: votingId });
+  try {
+    if (!mongoose.Types.ObjectId.isValid(votingId)) {
+      throw createError(400, ERROR_INVALID_ACCESS);
+    }
 
-  res.status(200);
+    await Voting.deleteOne({ _id: votingId });
+
+    res.status(200);
+  } catch (err) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      return next(createError(400, ERROR_INVALID_DATA));
+    }
+
+    next(err);
+  }
 };

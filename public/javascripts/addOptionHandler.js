@@ -1,16 +1,16 @@
 (function () {
-  const $addingOption = document.querySelector(".add-option");
+  const $addOptionButton = document.querySelector(".add-option-button");
   const $addedOptionList = document.querySelector(".voting-option-list");
-  const $userOption = document.querySelector(".user-option");
+  const $inputOption = document.querySelector(".input-option");
 
   function createNewOptionUnit(content) {
-    const $wrapper = document.createElement("li");
     const $newOption = document.createElement("input");
     const $button = document.createElement("button");
+    const $wrapper = document.createElement("li");
 
     $newOption.setAttribute("name", "options")
-    $button.classList.add("option-delete-button");
     $newOption.value = content;
+
     $button.textContent = "Delete";
 
     $wrapper.appendChild($newOption);
@@ -22,18 +22,18 @@
     };
   }
 
-  $addingOption.addEventListener("click", function () {
-    if (!$userOption.value.length) {
+  $addOptionButton.addEventListener("click", function () {
+    if (!$inputOption.value.length) {
       return;
     }
 
-    const { wrapper, button } = createNewOptionUnit($userOption.value);
+    const { wrapper, button } = createNewOptionUnit($inputOption.value);
 
     button.addEventListener("click", function () {
       $addedOptionList.removeChild(wrapper);
     });
 
-    $userOption.value = "";
+    $inputOption.value = "";
 
     $addedOptionList.appendChild(wrapper);
   });
