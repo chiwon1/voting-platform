@@ -17,7 +17,7 @@ router.get("/", function (req, res, next) {
   res.render("signup");
 });
 
-router.post("/", function (req, res, next) {
+router.post("/", async function (req, res, next) {
   try {
     const { name, email, password, confirmPassword } = req.body;
 
@@ -39,7 +39,7 @@ router.post("/", function (req, res, next) {
 
     const user = new User(req.body);
 
-    user.save();
+    await user.save();
 
     res.redirect(302, "/login");
   } catch (err) {

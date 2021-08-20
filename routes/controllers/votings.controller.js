@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+
 const createError = require("http-errors");
+const validateDate = require("../../utils/utils");
 
 const Voting = require("../../models/Voting");
 const Ballot = require("../../models/Ballot");
@@ -8,7 +10,6 @@ const {
   ERROR_NOT_FOUND,
   ERROR_INVALID_VOTING_ACCESS,
   ERROR_INVALID_TITLE,
-  ERROR_INVALID_VOTING_CREATOR,
   ERROR_INVALID_VOTING_OPTION,
   ERROR_NOT_ENOUGH_OPTIONS_INPUT,
   ERROR_INVALID_EXPIRATION_DATE,
@@ -18,25 +19,29 @@ const {
   ERROR_INVALID_ACCESS,
 } = require("../../constants/errorConstants");
 
-exports.getCreatePage = async function (req, res, next) {
+exports.getNewVoting = async function (req, res, next) {
+  if (!req.user) {
+    return res.redirect(302, "/login");
+  }
+
   const name = req.user.name;
 
   res.render("votingCreation/creation", { name });
 };
 
-exports.createVoting = function (req, res, next) {
+exports.createVoting = async function (req, res, next) {
+  if (!req.user) {
+    return res.redirect(302, "/login");
+  }
+
   try {
-    const { title, creator, expiredAt, options } = req.body;
+    const { title, expiredAt, options } = req.body;
 
     if (!title) {
       throw createError(400, ERROR_INVALID_TITLE);
     }
 
-    if (!creator) {
-      throw createError(400, ERROR_INVALID_VOTING_CREATOR);
-    }
-
-    if (!expiredAt) {
+    if (!validateDate(expiredAt)) {
       throw createError(400, ERROR_INVALID_EXPIRATION_DATE);
     }
 
@@ -60,7 +65,7 @@ exports.createVoting = function (req, res, next) {
       options: req.body.options.map(option => ({ title: option })),
     });
 
-    voting.save();
+    await voting.save();
 
     res.render("votingCreation/success");
   } catch (err) {
@@ -69,81 +74,85 @@ exports.createVoting = function (req, res, next) {
 };
 
 exports.getDetails = async function (req, res, next) {
-  const votingId = req.params._id;
-  const userId = req.user ? req.user._id : null;
+  try {
+    const votingId = req.params._id;
+    const userId = req.user ? req.user._id : null;
 
-  if (!mongoose.isValidObjectId(votingId)) {
-    next(createError(400, ERROR_INVALID_VOTING_ACCESS));
-  }
+    if (!mongoose.isValidObjectId(votingId)) {
+      return next(createError(400, ERROR_INVALID_VOTING_ACCESS));
+    }
 
-  const aggregatedVoting = Voting.aggregate([
-    { $match: { _id: mongoose.Types.ObjectId(votingId) } },
-    { $addFields: { isInProgress: { $gt: ["$expiredAt", new Date()] } } },
-    {
-      $lookup: {
-        from: "users",
-        localField: "creator",
-        foreignField: "_id",
-        as: "creator",
-      },
-    },
-    {
-      $project: {
-        title: 1,
-        expiredAt: 1,
-        isInProgress: 1,
-        options: 1,
-        creator: { $arrayElemAt: ["$creator", 0] },
-      },
-    },
-  ]).then(value => value[0]);
-
-  const hasCurrentUserVoted = Ballot.exists({ user: userId, voting: votingId });
-
-  const [voting, hasVoted] = await mongoose.Promise.all([aggregatedVoting, hasCurrentUserVoted]);
-
-  if (!voting) {
-    return next(createError(404, ERROR_NOT_FOUND));
-  }
-
-  const isCurrentUserCreator = userId?.equals(voting.creator._id.toString());
-
-  if (isCurrentUserCreator || !voting.isInProgress) {
-    const ballot = await Ballot.aggregate([
-      { $match: { voting: mongoose.Types.ObjectId(votingId) } },
+    const aggregatedVoting = Voting.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(votingId) } },
+      { $addFields: { isInProgress: { $gt: ["$expiredAt", new Date()] } } },
       {
-        $group: {
-          _id: "$option",
-          count: { $sum: 1 },
+        $lookup: {
+          from: "users",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
         },
       },
-    ]).then(result => (
-      Object.assign(
-        {},
-        ...result.map(
-          value => (
-            { [value._id]: value.count }
+      {
+        $project: {
+          title: 1,
+          expiredAt: 1,
+          isInProgress: 1,
+          options: 1,
+          creator: { $arrayElemAt: ["$creator", 0] },
+        },
+      },
+    ]);
+
+    const hasCurrentUserVoted = Ballot.exists({ user: userId, voting: votingId });
+
+    const [[voting], hasVoted] = await Promise.all([aggregatedVoting, hasCurrentUserVoted]);
+
+    if (!voting) {
+      return next(createError(404, ERROR_NOT_FOUND));
+    }
+
+    const isCurrentUserCreator = userId?.equals(voting.creator._id.toString());
+
+    if (isCurrentUserCreator || !voting.isInProgress) {
+      const ballot = await Ballot.aggregate([
+        { $match: { voting: mongoose.Types.ObjectId(votingId) } },
+        {
+          $group: {
+            _id: "$option",
+            count: { $sum: 1 },
+          },
+        },
+      ]).then(result => (
+        Object.assign(
+          {},
+          ...result.map(
+            value => (
+              { [value._id]: value.count }
+            )
           )
         )
-      )
-    ));
+      ));
 
-    const votingWithOption = {
-      ...voting,
-      options: voting.options.map(option => {
-        const ballotId = option._id.toString();
+      const votingWithOption = {
+        ...voting,
+        options: voting.options.map(option => {
+          const ballotId = option._id.toString();
 
-        return {
-          ...option,
-          count: ballot[ballotId] || 0,
-        };
-      }),
-    };
+          return {
+            ...option,
+            count: ballot[ballotId] || 0,
+          };
+        }),
+      };
 
-    return res.render("votingDetails", { voting: votingWithOption, isCurrentUserCreator, hasVoted });
+      return res.render("votingDetails", { voting: votingWithOption, isCurrentUserCreator, hasVoted });
+    }
+
+    res.render("votingDetails", { voting, isCurrentUserCreator, hasVoted });
+  } catch (err) {
+    next(err);
   }
-
-  res.render("votingDetails", { voting, isCurrentUserCreator, hasVoted });
 };
 
 exports.vote = async function (req, res, next) {
@@ -175,7 +184,7 @@ exports.vote = async function (req, res, next) {
       option: optionId,
     });
 
-    ballot.save();
+    await ballot.save();
 
     res.redirect(302, "/");
   } catch (err) {

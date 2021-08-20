@@ -8,7 +8,6 @@ const ERROR_UNREGISTERED_EMAIL = "Unregistered email";
 const ERROR_WRONG_PASSWORD = "Wrong password";
 const ERROR_INVALID_USER_ID = "Invalid user id";
 const ERROR_INVALID_TITLE = "Invalid title";
-const ERROR_INVALID_VOTING_CREATOR = "Invalid voting creator";
 const ERROR_INVALID_VOTING_OPTION = "Invalid voting option"
 const ERROR_NOT_ENOUGH_OPTIONS_INPUT = "At least two options should be input"
 const ERROR_INVALID_EXPIRATION_DATE = "Invalid expiration date";
@@ -28,7 +27,6 @@ module.exports = {
   ERROR_WRONG_PASSWORD,
   ERROR_INVALID_USER_ID,
   ERROR_INVALID_TITLE,
-  ERROR_INVALID_VOTING_CREATOR,
   ERROR_INVALID_VOTING_OPTION,
   ERROR_NOT_ENOUGH_OPTIONS_INPUT,
   ERROR_INVALID_EXPIRATION_DATE,
