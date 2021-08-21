@@ -19,6 +19,8 @@ const {
   ERROR_INVALID_ACCESS,
 } = require("../../constants/errorConstants");
 
+const MINIMUM_NUMBER_OF_OPTIONS = 2;
+
 exports.getNewVoting = async function (req, res, next) {
   if (!req.user) {
     return res.redirect(302, "/login");
@@ -53,7 +55,7 @@ exports.createVoting = async function (req, res, next) {
       throw createError(400, ERROR_INVALID_VOTING_OPTION);
     }
 
-    if (options.length < 2) {
+    if (options.length < MINIMUM_NUMBER_OF_OPTIONS) {
       throw createError(400, ERROR_NOT_ENOUGH_OPTIONS_INPUT);
     }
 
