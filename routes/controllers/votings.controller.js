@@ -71,7 +71,11 @@ exports.createVoting = async function (req, res, next) {
 
     res.render("votingCreation/success");
   } catch (err) {
-    res.render("votingCreation/failure");
+    if (err instanceof mongoose.Error.ValidationError) {
+      res.render("votingCreation/failure", { message: ERROR_INVALID_DATA })
+    }
+
+    res.render("votingCreation/failure", { message: err.message });
   }
 };
 
@@ -132,7 +136,7 @@ exports.getDetails = async function (req, res, next) {
             value => (
               { [value._id]: value.count }
             )
-          )
+          ),
         )
       ));
 
@@ -145,7 +149,7 @@ exports.getDetails = async function (req, res, next) {
             ...option,
             count: ballot[ballotId] || 0,
           };
-        }),
+        })
       };
 
       return res.render("votingDetails", { voting: votingWithOption, isCurrentUserCreator, hasVoted });
