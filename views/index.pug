@@ -3,8 +3,12 @@ extends layout
 block content
   h1= "Voting platform"
   h2= "List"
-  form(action="/logout" method="post")
-    button= "Logout"
+  if username
+    form(action="/logout" method="post")
+      button= `${username} Logout`
+  else
+    form(action="/login" method="get")
+      button= "Login"
   form(action="/votings/new" method="get")
     button= "Create vote"
   form(action="/my-votings" method="get")

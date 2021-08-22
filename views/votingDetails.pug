@@ -16,7 +16,7 @@ block content
           value=option._id
           disabled=!voting.isInProgress || hasVoted
         )
-        label(for="huey") #{option.title}
+        label #{option.title}
         if option.count
           p #{option.count}명
     button 투표
