@@ -1,37 +1,21 @@
-const ERROR_NOT_FOUND = "Page Not Found";
-const ERROR_500_SERVER = "Server Error";
-const ERROR_INVALID_SIGNUP_INPUT = "Enter valid information";
-const ERROR_DUPLICATE_EMAIL = "Entered ID already exists.";
-const ERROR_INVALID_VOTING_ACCESS = "Invalid voting request";
-const ERROR_CONFIRMATION_PASSWORD_NOT_MATCHING = "Password and Confirm Password must be match";
-const ERROR_UNREGISTERED_EMAIL = "Unregistered email";
-const ERROR_WRONG_PASSWORD = "Wrong password";
-const ERROR_INVALID_USER_ID = "Invalid user id";
-const ERROR_INVALID_TITLE = "Invalid title";
-const ERROR_INVALID_VOTING_OPTION = "Invalid voting option"
-const ERROR_NOT_ENOUGH_OPTIONS_INPUT = "At least two options should be input"
-const ERROR_INVALID_EXPIRATION_DATE = "Invalid expiration date";
-const ERROR_INVALID_USER = "Invalid user";
-const ERROR_INVALID_VOTING = "Invalid voting";
-const ERROR_INVALID_ACCESS = "Invalid access";
-const ERROR_INVALID_DATA = "Invalid data";
-
-module.exports = {
-  ERROR_NOT_FOUND,
-  ERROR_500_SERVER,
-  ERROR_INVALID_SIGNUP_INPUT,
-  ERROR_DUPLICATE_EMAIL,
-  ERROR_INVALID_VOTING_ACCESS,
-  ERROR_CONFIRMATION_PASSWORD_NOT_MATCHING,
-  ERROR_UNREGISTERED_EMAIL,
-  ERROR_WRONG_PASSWORD,
-  ERROR_INVALID_USER_ID,
-  ERROR_INVALID_TITLE,
-  ERROR_INVALID_VOTING_OPTION,
-  ERROR_NOT_ENOUGH_OPTIONS_INPUT,
-  ERROR_INVALID_EXPIRATION_DATE,
-  ERROR_INVALID_USER,
-  ERROR_INVALID_VOTING,
-  ERROR_INVALID_ACCESS,
-  ERROR_INVALID_DATA,
+const ERROR = {
+  NOT_FOUND: "Page Not Found",
+  INTERNAL_SERVER_ERROR: "Server Error",
+  INVALID_SIGNUP_INPUT: "Enter valid information",
+  DUPLICATE_EMAIL: "Entered ID already exists.",
+  INVALID_VOTING_ACCESS: "Invalid voting request",
+  CONFIRMATION_PASSWORD_NOT_MATCHING: "Password and Confirm Password must be match",
+  UNREGISTERED_EMAIL: "Unregistered email",
+  WRONG_PASSWORD: "Wrong password",
+  INVALID_USER_ID: "Invalid user id",
+  INVALID_TITLE: "Invalid title",
+  INVALID_VOTING_OPTION: "Invalid voting option",
+  NOT_ENOUGH_OPTIONS_INPUT: "At least two options should be input",
+  INVALID_EXPIRATION_DATE: "Invalid expiration date",
+  INVALID_USER: "Invalid user",
+  INVALID_VOTING: "Invalid voting",
+  INVALID_ACCESS: "Invalid access",
+  INVALID_DATA: "Invalid data",
 };
+
+module.exports = ERROR;

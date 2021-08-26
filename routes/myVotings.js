@@ -4,14 +4,14 @@ const router = express.Router();
 
 const Voting = require("../models/Voting");
 
-const { ERROR_INVALID_USER, ERROR_INVALID_DATA } = require("../constants/errorConstants");
+const ERROR = require("../constants/errorConstants");
 
 router.get("/", async function (req, res, next) {
   try {
     const userId = req.user._id;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-      throw createError(400, ERROR_INVALID_USER);
+      throw createError(400, ERROR.INVALID_USER);
     }
 
     const aggregatedVoting = await Voting.aggregate([
@@ -26,7 +26,7 @@ router.get("/", async function (req, res, next) {
     res.render("index", { votings: populatedVoting });
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
-      return next(createError(400, ERROR_INVALID_DATA));
+      return next(createError(400, ERROR.INVALID_DATA));
     }
 
     next(err);

@@ -1,8 +1,8 @@
-const { ERROR_500_SERVER } = require("../../constants/errorConstants");
+const ERROR = require("../../constants/errorConstants");
 
 function handleError(err, req, res, next) {
   if (!err.status) {
-    res.locals.message = ERROR_500_SERVER;
+    res.locals.message = ERROR.INTERNAL_SERVER_ERROR;
   } else {
     res.locals.message = err.message;
   }
@@ -13,7 +13,7 @@ function handleError(err, req, res, next) {
 
   if (req.headers["content-type"] === "application/json") {
     res.json({
-      error: req.app.get("env") === "development" ? res.locals.message : ERROR_500_SERVER
+      error: req.app.get("env") === "development" ? res.locals.message : ERROR.INTERNAL_SERVER_ERROR
     });
   } else {
     res.render("error");

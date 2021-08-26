@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const Voting = require("../models/Voting");
 
-const { ERROR_INVALID_DATA } = require("../constants/errorConstants");
+const ERROR = require("../constants/errorConstants");
 
 router.get("/", async function (req, res, next) {
   const username = req.user ? req.user.name : null;
@@ -21,7 +21,7 @@ router.get("/", async function (req, res, next) {
     res.render("index", { votings: populatedVoting, username });
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
-      return next(createError(400, ERROR_INVALID_DATA));
+      return next(createError(400, ERROR.INVALID_DATA));
     }
 
     next(err);
